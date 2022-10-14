@@ -1,0 +1,145 @@
+declare interface Solar2lunar {
+    lYear: number;
+    lMonth: number;
+    lDay: number;
+    animal: string;
+    monthCn: string;
+    dayCn: string;
+    cYear: number;
+    cMonth: number;
+    cDay: number;
+    gzYear: string;
+    gzMonth: string;
+    gzDay: string;
+    isToday: boolean;
+    isLeap: boolean;
+    nWeek: number;
+    ncWeek: string;
+    isTerm: boolean;
+    term: string;
+    lunarFestival: string;
+    festival: string;
+}
+
+/**
+ * @1900-2100区间内的公历、农历互转
+ * @charset  UTF-8
+ * @author  Ajing(JJonline@JJonline.Cn)
+ * @Time  2014-7-21
+ * @Version  $ID$
+ * @公历转农历：solarLunar.solar2lunar(1987,11,01); //[you can ignore params of prefix 0]
+ * @农历转公历：solarLunar.lunar2solar(1987,09,10); //[you can ignore params of prefix 0]
+ * @link http://blog.jjonline.cn/userInterFace/173.html
+ */
+
+declare const solarLunar: {
+    lunarInfo: number[];
+    solarMonth: number[];
+    gan: string[];
+    zhi: string[];
+    animals: string[];
+    lunarTerm: string[];
+    lTermInfo: string[];
+    nStr1: string[];
+    nStr2: string[];
+    nStr3: string[];
+    nStr4: string[];
+    /**
+     * 返回农历y年一整年的总天数
+     * @param lunar Year
+     * @return Number
+     * @eg:var count = solarLunar.lYearDays(1987) ;//count=387
+     */
+    lYearDays: (y: number) => number;
+    /**
+     * 返回农历y年闰月是哪个月；若y年没有闰月 则返回0
+     * @param lunar Year
+     * @return Number (0-12)
+     * @eg:var leapMonth = solarLunar.leapMonth(1987) ;//leapMonth=6
+     */
+    leapMonth: (y: number) => number;
+    /**
+     * 返回农历y年闰月的天数 若该年没有闰月则返回0
+     * @param lunar Year
+     * @return Number (0、29、30)
+     * @eg:var leapMonthDay = solarLunar.leapDays(1987) ;//leapMonthDay=29
+     */
+    leapDays: (y: number) => number;
+    /**
+     * 返回农历 y 年 m 月（非闰月）的总天数，计算 m 为闰月时的天数请使用 leapDays 方法
+     * @param lunar Year
+     * @return Number (-1、29、30)
+     * @eg:var MonthDay = solarLunar.monthDays(1987,9) ;//MonthDay=29
+     */
+    monthDays: (y: number, m: number) => number;
+    /**
+     * 返回公历(!)y年m月的天数
+     * @param solar Year
+     * @return Number (-1、28、29、30、31)
+     * @eg:var solarMonthDay = solarLunar.leapDays(1987) ;//solarMonthDay=30
+     */
+    solarDays: (y: number, m: number) => number;
+    /**
+     * 传入offset偏移量返回干支
+     * @param offset 相对甲子的偏移量
+     * @return Cn string
+     */
+    toGanZhi: (offset: number) => string;
+    /**
+     * 传入公历(!) y 年获得该年第 n 个节气的公历日期
+     * @param y公历年(1900-2100)；n二十四节气中的第几个节气(1~24)；从n=1(小寒)算起
+     * @return number Number
+     * @eg:var _24 = solarLunar.getTerm(1987,3) ;//_24=4;意即1987年2月4日立春
+     */
+    getTerm: (y: number, n: number) => number;
+    /**
+     * 传入农历年份数字返回汉语通俗表示法
+     * @param lunar year
+     * @return string
+     * @eg:
+     */
+    toChinaYear: (y: number) => string;
+    /**
+     * 传入农历数字月份返回汉语通俗表示法
+     * @param lunar month
+     * @return number string
+     * @eg:var cnMonth = solarLunar.toChinaMonth(12) ;//cnMonth='腊月'
+     */
+    toChinaMonth: (m: number) => string | number;
+    /**
+     * 传入农历日期数字返回汉字表示法
+     * @param lunar day
+     * @return Cn string
+     * @eg:var cnDay = solarLunar.toChinaDay(21) ;//cnMonth='廿一'
+     */
+    toChinaDay: (d: number) => string;
+    /**
+     * 年份转生肖[!仅能大致转换] => 精确划分生肖分界线是“立春”
+     * @param y year
+     * @return Cn string
+     * @eg:var animal = solarLunar.getAnimal(1987) ;//animal='兔'
+     * todo 生肖需要精确转换
+     */
+    getAnimal: (y: number) => string;
+    /**
+     * 传入公历年月日获得详细的公历、农历object信息 <=>JSON
+     * @param y  solar year
+     * @param m solar month
+     * @param d  solar day
+     * @return JSON object
+     * @eg:console.log(solarLunar.solar2lunar(1987,11,01));
+     */
+    solar2lunar: (y: number, m: number, d: number) => Solar2lunar | number;
+    /**
+     * 传入公历年月日以及传入的月份是否闰月获得详细的公历、农历object信息 <=>JSON
+     * @param y  lunar year
+     * @param m lunar month
+     * @param d  lunar day
+     * @param isLeapMonth  lunar month is leap or not.
+     * @return JSON object
+     * @eg:console.log(solarLunar.lunar2solar(1987,9,10));
+     */
+    lunar2solar: (y: number, m: number, d: number, isLeapMonth: boolean) => Solar2lunar | number;
+};
+
+export { solarLunar as default };

@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Test
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule: 
+    # 代表国际标准时间23点0分，北京时间需要+8小时，代表北京时间上午7点运行
+    - cron: '48 22 * * *'
+  # 定时任务，在每天的5点推送天气信息到邮箱
+    # - cron: '4 7 * * *'
+    # - cron: '48 6 * * *'
+    #- cron:  '30 11,13 * * *'
+    #0 0 7 * *
+  #该cron有五个由空格分隔的字段，每个字段代表一个时间单位。第一个数字代表分钟，第二个数字代表小时，第三个数字代表日，第四个数字代表月，第五个数字代表星期。
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 14.18.1
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.18.1
+    - name: npm install, start
+      run: |
+        npm install
+        npm start
+      env:
+        CI: true
