@@ -14,7 +14,7 @@ function getTargetTime(t){//获取指定日期到今天的天数
 	date = new Date();
     date1 =Date.parse(t);
     date2=date.getTime();
-    var distance= Math.abs(date2 - date1);
+    var distance= Math.abs(date2 - date1 );
     //毫秒数除以一天的毫秒数,就得到了天数
     var days = Math.floor(distance / (24 * 3600 * 1000));
     return days ;
